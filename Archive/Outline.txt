@@ -1,0 +1,438 @@
+Imports System
+Imports System.Data
+Imports System.IO
+Imports System.Threading
+Imports System.Data.Common
+Imports System.Collections.Generic
+Imports System.Diagnostics
+Imports System.Text
+Imports System.Globalization
+
+Imports OneStream.Finance.Database
+Imports OneStream.Finance.Engine
+
+Imports OneStream.Shared.Common
+Imports OneStream.Shared.Database
+Imports OneStream.Shared.Engine
+Imports OneStream.Shared.Wcf
+
+
+Namespace OneStream.BusinessRule.Finance.MTCH_ClearCubeData
+
+	Public Class MainClass
+	
+	    '=========================================================
+        ' SECTION 1 - Constants
+        '=========================================================
+		
+		
+		Private Const BR_NAME As String = "MTCH_ClearCubeData"
+		Private Const BR_VERSION As String = "5.3"
+		Private Const OS_VERSION As String = "9.2.1.18605"
+		Private Const LOG_SEPARATOR As String = _
+    "============================================================"
+	
+		Private Const DEBUG_MODE As Boolean = False
+		
+		
+		Private Const EXPORT_PROGRESS_INTERVAL As Integer = 10000
+
+		Private Const DEFAULT_MAXCELLS As Integer = 500000
+		Private Const DEFAULT_BATCHSIZE As Integer = 10000
+		Private Const DEFAULT_RESTORE_BATCHSIZE As Integer = 1000
+		
+		Private Const ENABLE_FILE_LOGGING As Boolean = True
+
+		Private Shared _logFile As String = Nothing
+		Private Shared _log As New StringBuilder()
+		Private Shared _exportLineNumber As Integer = 0
+		Private Shared _currentFunction As String = "Unknown"
+		
+		Private Shared ReadOnly DimensionPrefixes As New Dictionary(Of String, String)( _
+			StringComparer.OrdinalIgnoreCase) From {
+			{"Entity", "Entity"},
+			{"Parent", "Entity"},
+			{"Cons", "Cons"},
+			{"Scenario", "Scenario"},
+			{"Time", "Time"},
+			{"View", "View"},
+			{"Account", "Account"},
+			{"Flow", "Flow"},
+			{"Origin", "Origin"},
+			{"IC", "IC"},
+			{"UD1", "UD1"},
+			{"UD2", "UD2"},
+			{"UD3", "UD3"},
+			{"UD4", "UD4"},
+			{"UD5", "UD5"},
+			{"UD6", "UD6"},
+			{"UD7", "UD7"},
+			{"UD8", "UD8"}
+		}
+		
+
+		#Region "CSV Columns"
+
+		Private Const COL_LINENO As Integer = 0
+
+		Private Const COL_EXPORTDATE As Integer = 1
+
+		Private Const COL_BRVERSION As Integer = 2
+
+		Private Const COL_CUBE As Integer = 3
+
+		Private Const COL_USERNAME As Integer = 4
+
+		Private Const COL_ENTITY As Integer = 5
+
+		Private Const COL_PARENT As Integer = 6
+
+		Private Const COL_CONS As Integer = 7
+
+		Private Const COL_SCENARIO As Integer = 8
+
+		Private Const COL_TIME As Integer = 9
+
+		Private Const COL_VIEW As Integer = 10
+
+		Private Const COL_ACCOUNT As Integer = 11
+
+		Private Const COL_FLOW As Integer = 12
+
+		Private Const COL_ORIGIN As Integer = 13
+
+		Private Const COL_IC As Integer = 14
+
+		Private Const COL_UD1 As Integer = 15
+
+		Private Const COL_UD2 As Integer = 16
+
+		Private Const COL_UD3 As Integer = 17
+
+		Private Const COL_UD4 As Integer = 18
+
+		Private Const COL_UD5 As Integer = 19
+
+		Private Const COL_UD6 As Integer = 20
+
+		Private Const COL_UD7 As Integer = 21
+
+		Private Const COL_UD8 As Integer = 22
+
+		Private Const COL_AMOUNT As Integer = 23
+
+		Private Const CSV_COLUMN_COUNT As Integer = 24
+
+#End Region ' "CSV Columns"
+
+        '=========================================================
+        ' SECTION 2 - Enumerations
+        '=========================================================
+		
+		Private Enum ExpansionType
+
+
+		'=========================================================
+        ' SECTION 3 - Runtime Classes
+        '=========================================================
+		
+		
+		ExecutionConfiguration  - New 
+		
+		ExecutionContext    - New
+		
+		Private Class ExportContext
+
+		Private Class RestoreContext
+		
+		Private Class MetadataCache
+
+		Private Class ExportSummary
+
+		Private Class RestoreSummary
+
+		Private Class ExportRecord
+
+		Private Class RestoreRecord
+
+		Private Class DimensionFilter
+
+		Private Class HierarchyWarning
+
+		Private Class ExportAnalysis
+
+        '=========================================================
+        ' SECTION 4 - Main Entry Point
+        '=========================================================
+
+
+		Public Function Main(ByVal si As SessionInfo,
+
+        '=========================================================
+        ' SECTION 5 - Public Entry Procedures
+        '=========================================================
+
+		Private Shared Sub Export
+		
+		Private Shared Sub Export 
+		
+		Private Shared Sub ClearData
+		
+		Private Shared Sub Explain
+		
+		Private Shared Sub Validate
+		
+		Private Shared Sub Statistics
+		
+		'=========================================================
+        ' SECTION 6 - Execution Engines
+        '=========================================================
+		
+		Private Shared Sub ExecuteExport
+		
+		Private Shared Sub ExecuteRestore
+		
+		Private Shared Sub ExecuteClear
+		
+		Private Shared Sub ExecuteExplain
+		
+		Private Shared Sub ExecuteValidate
+		
+		Private Shared Sub ExecuteStatistics
+		
+        '=========================================================
+        ' SECTION 7 - Parameter Framework
+        '=========================================================
+
+		Private Shared Sub ReadParameters		
+		
+		Private Shared Sub ReadRestoreParameters
+		
+		Private Shared Function GetExecuteRestore
+		
+		Private Shared Function GetUseCurrentDataUnit
+		
+        ReadFilterParameters() - New or Name Mismatch??
+
+        ValidateParameters() -	New or Name Mismatch??	
+		
+        '=========================================================
+        ' SECTION 8 - Filter Construction Framework
+        '=========================================================
+
+		Private Shared Function BuildFilterScript
+		
+		Private Shared Function BuildFilterMembersScript
+		
+		Private Shared Sub AddFilterParameter
+		
+		Private Shared Sub AddExactIfPresent
+		
+		Private Shared Function BuildExpandedMemberScript
+		
+		Private Shared Function ResolveHierarchyMembers
+		
+		Private Shared Sub ParseSingleMemberFilter
+		
+		Private Shared Function ExpandMemberFilter
+		
+		
+        '=========================================================
+        ' SECTION 9 - Metadata Framework
+        '=========================================================
+
+		Private Shared Sub InitializeMetadata		
+		
+		Private Shared Function GetDimPk
+		
+		Private Shared Function GetDimTypeId
+		
+		Private Shared Function IsParentMember
+		
+        IsBaseMember() - New or Name Mismatch??
+
+        GetChildren() - New or Name Mismatch??
+
+        ExpandHierarchy() - New or Name Mismatch??	
+		
+        '=========================================================
+        ' SECTION 10 - Export Framework
+        '=========================================================
+
+        ExportData() - New or Name Mismatch??
+
+        WriteHeader() - New or Name Mismatch??
+
+        WriteRecord() - New or Name Mismatch??
+
+        CreateExportRecord() - New or Name Mismatch??	
+		
+		Private Shared Function CreateExportFile
+		
+		Private Shared Function GetExportFolder
+		
+		Private Shared Sub LogExportSummary
+		
+        '=========================================================
+        ' SECTION 11 - Restore Framework
+        '=========================================================
+
+		Private Shared Function ReadCsvHeader		
+		
+		Private Shared Function ReadRestoreRecord
+		
+        ValidateRestoreRecord() - New or Name Mismatch??
+
+        RestoreBatch() - New or Name Mismatch??
+
+        RestoreDataBuffer()	 - New or Name Mismatch??	
+		
+		Private Shared Sub LogRestoreSummary
+		
+        '=========================================================
+        ' SECTION 12 - Clear Framework
+        '=========================================================
+
+		Private Shared Function ClearStoredDataFromFilter		
+		
+		Private Shared Function GetSourceBuffer
+		
+        '=========================================================
+        ' SECTION 13 - Validation Framework
+        '=========================================================
+
+		Private Shared Sub ValidateOrigin		
+		
+        ValidateExport() - New or Name Mismatch??
+
+        ValidateRestore() - New or Name Mismatch??
+
+        ValidateFilters() - New or Name Mismatch??			
+		
+        '=========================================================
+        ' SECTION 14 - Statistics Framework
+        '=========================================================
+
+        ShowStatistics() - New or Name Mismatch??		
+		
+		Private Shared Sub ShowStatisticsFromFilter
+		
+		Private Shared Sub AnalyzeExport
+		
+        '=========================================================
+        ' SECTION 15 - File Framework
+        '=========================================================
+
+		Duplicate - CreateExportFile
+
+		Private Shared Function GetLatestExportFile
+
+        Duplicate - GetExportFolder
+
+        CreateLogFile() - New or Name Mismatch??
+
+        VerifyFolders() - New or Name Mismatch??
+		
+        '=========================================================
+        ' SECTION 16 - Logging Framework
+        '=========================================================		
+		
+		Private Shared Sub InitializeLog
+
+		Private Shared Sub Log
+
+		Private Shared Sub FlushLog
+
+        Duplicate LogExportSummary()
+
+        Duplicate LogRestoreSummary()
+
+        'Future
+
+        LogHeader() - New or Name Mismatch??
+
+        LogSection() - New or Name Mismatch??
+
+        LogWarning() - New or Name Mismatch??
+
+        LogError() - New or Name Mismatch??
+
+        LogSuccess() - New or Name Mismatch??
+
+        '=========================================================
+        ' SECTION 17 - Shared Utility Functions
+        '=========================================================
+
+		Private Shared Sub ReadExportMemberFilters
+
+		Private Shared Function GetMemberOrDefault
+
+		Private Shared Function BuildExportFilterScript
+
+		Private Shared Sub AddExpandedIfPresent
+
+		Private Shared Function GetExpandedMemberScript
+		
+		Private Shared Sub ReadMemberFilters		
+		
+		Private Shared Sub ParseMemberFilters		
+		
+		Private Shared Function GetDimensionName		
+		
+		Private Shared Function ExpandExact		
+
+		Private Shared Function ExpandBase		
+		
+		Private Shared Function ExpandChildren		
+		
+		Private Shared Function ExpandDescendants		
+		
+		Private Shared Sub ResolveMemberFilters		
+		
+		Private Shared Sub ValidateHierarchy		
+		
+		Private Shared Sub WriteCsvHeader		
+		
+		Private Shared Sub ReadCsv		
+		
+		Private Shared Function CsvValue		
+		
+		Private Shared Sub WriteCsvRecord
+		
+		Private Shared Function BuildExportRecord
+		
+		Private Shared Sub ExportOrigin
+		
+		Private Shared Sub ExportBuffer
+		
+		Private Shared Function BuildMemberScript
+		
+		Private Shared Function IsMatchingDataUnit
+		
+		Private Shared Function IsMatchingMemberFilters
+		
+		Private Shared Function GetRestoreRecordValue
+		
+		Private Shared Sub RestoreDataRecord
+		
+		Private Shared Sub FlushRestoreBatch
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+		
+		

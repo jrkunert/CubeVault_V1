@@ -1,0 +1,175 @@
+	Private Shared Function BuildFilterScript( _
+				ByVal si As SessionInfo, _
+				ByVal api As FinanceRulesApi, _
+				ByVal originName As String) As String
+
+			Dim parts As New List(Of String)
+
+		AddExactIfPresent(parts, "S", api.Pov.Scenario.Name)
+		AddExactIfPresent(parts, "T", api.Pov.Time.Name)
+		AddExactIfPresent(parts, "C", api.Pov.Cons.Name)
+		AddExactIfPresent(parts, "V", api.Pov.View.Name)
+		AddExactIfPresent(parts, "O", originName)
+
+		Log(si, "")
+		Log(si, "POV Values")
+		Log(si, "Entity  = '" & api.Pov.Entity.Name & "'")
+		Log(si, "Account = '" & api.Pov.Account.Name & "'")
+		Log(si, "Flow    = '" & api.Pov.Flow.Name & "'")
+		Log(si, "IC      = '" & api.Pov.IC.Name & "'")
+
+		AddExpandedIfPresent( _
+			si, _
+			api, _
+			parts, _
+			"E", _
+			GetMemberOrDefault(api.Pov.Entity.Name))
+
+		AddExpandedIfPresent( _
+			si, _
+			api, _
+			parts, _
+			"A", _
+			GetMemberOrDefault(api.Pov.Account.Name))
+
+		AddExpandedIfPresent( _
+			si, _
+			api, _
+			parts, _
+			"F", _ 
+			GetMemberOrDefault(api.Pov.Flow.Name))
+
+		AddExpandedIfPresent( _
+			si, _
+			api, _
+			parts, _
+			"I", _ 
+			GetMemberOrDefault(api.Pov.IC.Name))
+
+		AddExpandedIfPresent( _
+			si, _
+			api, _
+			parts, _
+			"U1", _ 
+			GetMemberOrDefault(api.Pov.UD1.Name))	
+
+		AddExpandedIfPresent( _
+			si, _
+			api, _
+			parts, _
+			"U2", _ 
+			GetMemberOrDefault(api.Pov.UD2.Name))	
+
+		AddExpandedIfPresent( _
+			si, _
+			api, _
+			parts, _
+			"U3", _ 
+			GetMemberOrDefault(api.Pov.UD3.Name))	
+
+		AddExpandedIfPresent( _
+			si, _
+			api, _
+			parts, _
+			"U4", _ 
+			GetMemberOrDefault(api.Pov.UD4.Name))	
+
+		AddExpandedIfPresent( _
+			si, _
+			api, _
+			parts, _
+			"U5", _ 
+			GetMemberOrDefault(api.Pov.UD5.Name))	
+
+		AddExpandedIfPresent( _
+			si, _
+			api, _
+			parts, _
+			"U6", _ 
+			GetMemberOrDefault(api.Pov.UD6.Name))	
+
+		AddExpandedIfPresent( _
+			si, _
+			api, _
+			parts, _
+			"U7", _ 
+			GetMemberOrDefault(api.Pov.UD7.Name))	
+
+		AddExpandedIfPresent( _
+			si, _
+			api, _
+			parts, _
+			"U8", _ 
+			GetMemberOrDefault(api.Pov.UD8.Name))				
+
+		Return BuildFilterMembersScript(parts)
+
+		End Function
+
+		Private Shared Sub AddExpandedIfPresent( _
+				ByVal si As SessionInfo, _
+				ByVal api As FinanceRulesApi, _
+				ByVal parts As List(Of String), _
+				ByVal dimPrefix As String, _
+				ByVal memberName As String)
+
+			If String.IsNullOrWhiteSpace(memberName) Then Exit Sub
+
+			Dim dimensionName As String = GetDimensionName(dimPrefix)
+
+			Dim members As HashSet(Of String) = _
+				ResolveHierarchyMembers( _
+					si, _
+					api, _
+					dimensionName, _
+					memberName)
+
+			If members.Count = 0 Then
+
+				parts.Add(GetExpandedMemberScript( _
+					dimPrefix, _
+					memberName))
+
+				Exit Sub
+
+			End If
+
+			For Each member As String In members
+
+				parts.Add(dimPrefix & "#" & member)
+
+			Next
+
+		End Sub		
+
+		Private Shared Sub ResolveMemberFilters( _
+				ByVal si As SessionInfo, _
+				ByVal api As FinanceRulesApi, _
+				ByVal ctx As RestoreContext)
+
+			Try
+
+				For Each filter As DimensionFilter In ctx.MemberFilters.Values
+
+					filter.Members = ExpandMemberFilter( _
+						si, _
+						api, _
+						filter)
+
+					Log(si, "")
+					Log(si, "Resolved Members : " &
+						filter.Members.Count.ToString())
+
+				Next
+
+			Catch ex As Exception
+
+				Log(si, "")
+				Log(si, "ERROR in ResolveMemberFilters")
+				Log(si, ex.ToString())
+
+				Throw
+
+			End Try
+
+		End Sub

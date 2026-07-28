@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<OneStreamXF version="9.2.1.18605">
+    <dataManagementRoot>
+        <dataManagementGroups>
+            <dataManagementGroup name="One Offs" workspace="Default" maintenanceUnit="Default" description="" accessGroup="Administrators" maintenanceGroup="Administrators">
+                <dataManagementSteps>
+                    <dataManagementStep name="ClearAllo" description="Clear  EE Central Resources_OUT and EE Central Resources_IN" stepType="CustomCalculate">
+                        <stepDefinition>
+                            <DataMgmtCustomCalculateDefinition>
+                                <UseDetailedLogging>true</UseDetailedLogging>
+                                <Cube>Finance</Cube>
+                                <EntityFilter>E#MatchGroup.Base</EntityFilter>
+                                <ParentFilter />
+                                <ConsFilter>C#USD</ConsFilter>
+                                <Scenario>Sandbox</Scenario>
+                                <TimeFilter>T#2025M10</TimeFilter>
+                                <View>Periodic</View>
+                                <Account />
+                                <Flow />
+                                <Origin />
+                                <IC />
+                                <UD1 />
+                                <UD2 />
+                                <UD3 />
+                                <UD4 />
+                                <UD5 />
+                                <UD6 />
+                                <UD7 />
+                                <UD8 />
+                                <BusinessRuleName>MTCH_DataHelper</BusinessRuleName>
+                                <FunctionName>ClearAllo</FunctionName>
+                                <Parameters />
+                            </DataMgmtCustomCalculateDefinition>
+                        </stepDefinition>
+                    </dataManagementStep>
+                </dataManagementSteps>
+            </dataManagementGroup>
+        </dataManagementGroups>
+    </dataManagementRoot>
+</OneStreamXF>

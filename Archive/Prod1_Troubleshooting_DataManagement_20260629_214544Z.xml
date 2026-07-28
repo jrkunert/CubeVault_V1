@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<OneStreamXF version="9.2.1.18605">
+    <dataManagementRoot>
+        <dataManagementGroups>
+            <dataManagementGroup name="One Offs" workspace="Default" maintenanceUnit="Default" description="" accessGroup="Administrators" maintenanceGroup="Administrators">
+                <dataManagementSteps>
+                    <dataManagementStep name="ClearMetrics" description="" stepType="CustomCalculate">
+                        <stepDefinition>
+                            <DataMgmtCustomCalculateDefinition>
+                                <UseDetailedLogging>true</UseDetailedLogging>
+                                <Cube>Finance</Cube>
+                                <EntityFilter>E#Temporary_ToBeRemoved.Base</EntityFilter>
+                                <ParentFilter />
+                                <ConsFilter>C#Root.Base</ConsFilter>
+                                <Scenario>Actual(Archive)</Scenario>
+                                <TimeFilter>T#2020.DescendantsInclusive</TimeFilter>
+                                <View>Periodic</View>
+                                <Account />
+                                <Flow />
+                                <Origin />
+                                <IC />
+                                <UD1 />
+                                <UD2 />
+                                <UD3 />
+                                <UD4 />
+                                <UD5 />
+                                <UD6 />
+                                <UD7 />
+                                <UD8 />
+                                <BusinessRuleName>MTCH_DataClear_Arc</BusinessRuleName>
+                                <FunctionName>ClearAll</FunctionName>
+                                <Parameters />
+                            </DataMgmtCustomCalculateDefinition>
+                        </stepDefinition>
+                    </dataManagementStep>
+                </dataManagementSteps>
+            </dataManagementGroup>
+        </dataManagementGroups>
+    </dataManagementRoot>
+</OneStreamXF>
