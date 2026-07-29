@@ -9,7 +9,9 @@
 *.user
 *.userosscache
 *.sln.docstates
-*.env
+.env
+.env.*
+.vs/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -427,3 +429,28 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Coverage and reports
+coverage/
+TestResults/
+
+# Local environment files
+.env
+.env.*
+
+# Local tool caches
+.cache/
+
+# Generated documentation
+docs/_site/
+
+# Rider
+.idea/
+
+# Visual Studio Code workspace (keep shared settings if desired)
+*.code-workspace
