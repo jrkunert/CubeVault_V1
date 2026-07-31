@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>CubeVault infrastructure adapters and external-system boundary.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../CubeVault.Application/CubeVault.Application.csproj" />
+    <ProjectReference Include="../CubeVault.Domain/CubeVault.Domain.csproj" />
+    <ProjectReference Include="../CubeVault.Shared/CubeVault.Shared.csproj" />
+  </ItemGroup>
+</Project>

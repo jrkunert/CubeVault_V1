@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>CubeVault application orchestration contracts and use-case boundary.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../CubeVault.Domain/CubeVault.Domain.csproj" />
+  </ItemGroup>
+</Project>

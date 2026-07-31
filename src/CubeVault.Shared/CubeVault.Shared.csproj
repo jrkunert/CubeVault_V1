@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>CubeVault Shared project.</Description>
+  </PropertyGroup>
+</Project>
